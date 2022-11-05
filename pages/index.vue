@@ -11,6 +11,25 @@
       <b-col></b-col>
     </b-row>
 
+    <section class="section">
+      <div class="container">
+        <div class="columns">
+          <div class="column is-three-fifths is-offset-one-fifth">
+            <div v-for="post in posts" :key="post.slug" class="mb-5">
+              <h3 class="title is-4">
+                <nuxt-link :to="post.slug">
+                  {{ post.title }}
+                </nuxt-link>
+              </h3>
+              <div>
+                {{ post.description }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- SECTIONS -->
     <b-row class="mt-3">
       Cards with a tagged colour for their section?
@@ -51,5 +70,9 @@ export default {
         ]
       }
   },
+  async asyncData ({ $content }) {
+    const posts = await $content('articles').sortBy('createdAt', 'desc').fetch()
+    return { posts }
+  }
 }
 </script>
